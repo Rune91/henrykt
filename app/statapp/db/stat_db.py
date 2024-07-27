@@ -6,9 +6,10 @@ class myDB:
         self.configuration = {
             "host": "db",
             "port": 3306,
-            "user": "root",
+            "user": "rootless",
             "password": "statapp1337",
-            "database": "stat"
+            "database": "stat",
+            "auth_plugin": "mysql_native_password"
         }
     
     def __enter__(self):

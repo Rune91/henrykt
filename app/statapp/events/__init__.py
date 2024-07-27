@@ -1,0 +1,1 @@
+from statapp.events.events import BP as events_bp

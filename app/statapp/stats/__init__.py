@@ -1,0 +1,1 @@
+from statapp.stats.stats import BP as stats_bp

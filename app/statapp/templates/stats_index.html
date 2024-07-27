@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistikk{% endblock title %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/charts.css')}}" />
+
+<script>
+    console.log("loading charts...")
+
+    function make_chart(chart_id, data_list) {
+        const chart = document.getElementById(chart_id);
+
+        const labels = ["1", "2", "3", "4", "5"];
+        const data = {
+        labels: labels,
+        datasets: [{
+            data: data_list,
+            backgroundColor: [
+            'rgb(197, 0, 0)',
+            'rgb(255, 159, 0)',
+            'rgb(255, 238, 0)',
+            'rgb(176, 228, 0)',
+            'rgb(27, 255, 28)',
+            ],
+            borderColor: [
+            'rgb(0, 0, 0)'
+            ],
+            borderWidth: 1
+        }]
+        };
+
+        const config = {
+            type: "bar",
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        display: false
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                responsive: false,
+            }
+        };
+
+        new Chart(chart, config);
+
+    }
+</script>
+
+
+<div class="text-center">
+    <h2 class="text-center mb-2">Statistikk</h2>
+    <a class="btn btn-primary btn-lg mb-4" href="{{url_for('stats.download', event_id=0)}}">Last ned all data som CSV</a>
+</div>
+
+<div class="d-flex flex-wrap gap-2 justify-content-evenly mb-4">
+    {% for eval in evaluation_sets %}
+        <div class="col-12 col-md-5">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center fs-4 fw-normal text-secondary">{{ eval.event_name }}</h4>
+                </div>
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                    
+                    {% if eval.rating_count > 0 %}
+                        <p class="card-text text-secondary">
+                            <svg width="24" height="24">
+                                {% if eval.average >= 4.4 %}
+                                    <img src="{{url_for('static', filename='imgs/smile_5.svg')}}" width="24"/>
+                                {% elif eval.average >= 3.5 %}
+                                    <img src="{{url_for('static', filename='imgs/smile_4.svg')}}" width="24"/>
+                                {% elif eval.average >= 2.6 %}
+                                    <img src="{{url_for('static', filename='imgs/smile_3.svg')}}" width="24"/>
+                                {% elif eval.average >= 1.7 %}
+                                    <img src="{{url_for('static', filename='imgs/smile_2.svg')}}" width="24"/>
+                                {% else %}
+                                    <img src="{{url_for('static', filename='imgs/smile_1.svg')}}" width="24"/>
+                                {% endif %}
+                            </svg>
+                            <span class="fw-bolder">{{ eval.average }}</span>
+                            ({{ eval.rating_count }} tilbakemeldinger)
+                        </p>
+                        <canvas id="chart{{ loop.index }}"></canvas>
+                        <script>make_chart("chart{{ loop.index }}", {{ eval.evals | tojson }})</script>  
+                    {% else %}
+                    <p class="card-text text-secondary">Ingen tilbakemeldinger</p>
+                    {% endif %}
+                </div>
+                {% if eval.rating_count > 0 %}
+                    <div class="card-footer text-center">
+                        <a class="btn btn-outline-primary" href="{{url_for('stats.download', event_id=eval.event_id)}}">Last ned som CSV</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock content %}

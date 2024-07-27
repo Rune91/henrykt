@@ -1,0 +1,1 @@
+from statapp.feedback.feedback import BP as feedback_bp

@@ -7,7 +7,7 @@ class myDB:
             "host": "db",
             "port": 3306,
             "user": "root",
-            "password": "password",
+            "password": "statapp1337",
             "database": "stat"
         }
     

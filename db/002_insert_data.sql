@@ -1,15 +1,15 @@
 USE stat;
 INSERT INTO User (UserName, UserLogin, UserPin)
 VALUES
-	("Test user", "test", "1234");
+	("Demo user", "demo", "1234");
 
-INSERT INTO Operator (UserId, OperatorName)
-VALUES
-	(1, "Rune");
+-- INSERT INTO Operator (UserId, OperatorName)
+-- VALUES
+-- 	(1, "Rune");
     
-INSERT INTO Event (UserId, EventName)
-VALUES
-	(1, "Konsert med Bruce Springsteen");
+-- INSERT INTO Event (UserId, EventName)
+-- VALUES
+-- 	(1, "Konsert med Bruce Springsteen");
 
 -- INSERT INTO Player (PlayerName)
 -- VALUES
